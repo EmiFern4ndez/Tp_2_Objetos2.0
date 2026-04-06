@@ -1,4 +1,4 @@
-package punto_1.Test;
+package punto_1.test;
 
 import punto_1.interfaces.Saver;
 
@@ -14,15 +14,15 @@ public class FakeRecopiladorEnArchivo implements Saver {
         this.seGuardo = true;
     }
 
-    public boolean getSeGuardo() {
+    public boolean SeGuardo() {
         return this.seGuardo;
     }
 
-    public int getId_Participante() {
+    public int IdParticipante() {
         return this.id_Participante;
     }
 
-    public int getId_Concurso() {
+    public int IdConcurso() {
         return this.id_Concurso;
     }
 }

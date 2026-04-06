@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="/Pedido (snapshot).java">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="/Pedido (snapshot).java" />
+              <option name="originalContent" value="package punto_2.main;&#10;&#10;import punto_2.interfaces.Vendible;&#10;&#10;import java.util.LinkedList;&#10;import java.util.List;&#10;&#10;public class Pedido {&#10;    private List&lt;Vendible&gt; items;&#10;    private boolean confirmado;&#10;&#10;    public Pedido() {&#10;        this.items = new LinkedList&lt;&gt;();&#10;        this.confirmado = false;&#10;    }&#10;&#10;    public void agregarItem(Vendible item, int cantidad) {&#10;        if (!confirmado) {&#10;            for (int i = 0; i &lt; cantidad; i++) {&#10;                items.add(item);&#10;            }&#10;        }&#10;    }&#10;&#10;    public void confirmar() {&#10;        this.confirmado = true;&#10;    }&#10;&#10;    public List&lt;Vendible&gt; obtenerItems() {&#10;        return items;&#10;    }&#10;&#10;    public double calcularCostoBase() {&#10;        double total = 0;&#10;        for (Vendible item : items) {&#10;            total += item.devolverPrecioBebida() + item.devolverPrecioPlato();&#10;        }&#10;        return total;&#10;    }&#10;}&#10;" />
+              <option name="updatedContent" value="package punto_2.main;&#10;&#10;import punto_2.interfaces.Vendible;&#10;&#10;import java.util.LinkedList;&#10;import java.util.List;&#10;&#10;public class Pedido {&#10;    private List&lt;Vendible&gt; items;&#10;    private boolean confirmado;&#10;&#10;    public Pedido() {&#10;        this.items = new LinkedList&lt;&gt;();&#10;        this.confirmado = false;&#10;    }&#10;&#10;    public void agregar(Vendible item, int cantidad) {&#10;        if (!confirmado) {&#10;            for (int i = 0; i &lt; cantidad; i++) {&#10;                items.add(item);&#10;            }&#10;        }&#10;    }&#10;&#10;    public void confirmar() {&#10;        this.confirmado = true;&#10;    }&#10;&#10;    public List&lt;Vendible&gt; items() {&#10;        return List.copyOf(items); // Devuelve copia inmutable&#10;    }&#10;&#10;    public double calcularCostoBase() {&#10;        double total = 0;&#10;        for (Vendible item : items) {&#10;            total += item.devolverPrecioBebida() + item.devolverPrecioPlato();&#10;        }&#10;        return total;&#10;    }&#10;}" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

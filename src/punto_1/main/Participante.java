@@ -22,43 +22,22 @@ public class Participante {
         this.apellido = apellido;
     }
 
-    public String getNombre() {
-        return nombre;
+    public void sumarPuntos(int cantPuntos) {
+        this.puntos += cantPuntos;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public int puntosObtenidos() {
+        return this.puntos;
     }
 
-    public String getApellido() {
-        return apellido;
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
-
-    public int getPuntos() {
-        return puntos;
-    }
-
-    public void setPuntos(int puntos) {
-        this.puntos = puntos;
-    }
-
-    public void sumarleDiezPuntos() {
-        this.puntos += 10;
-    }
-
-    public int getId() {
+    public int Id() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Participante:" +
+                "Nombre:'" + nombre + '\'' +
+                ", Apellido:'" + apellido + '\'';
     }
 }

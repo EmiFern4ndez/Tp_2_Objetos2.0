@@ -1,45 +1,51 @@
 package punto_1.main;
 
+import punto_1.interfaces.FechaProvider;
 import punto_1.interfaces.Saver;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Concurso {
+    private static int puntosAsumar = 10;
     private static int nextId = 1;
     private int id;
     private ArrayList<Participante> participantes;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private Saver recopilador;
+    private FechaProvider fechaProvider; // Inyectado
 
-    public Concurso(LocalDate fechaInicio, LocalDate fechaFin, Saver recopilador) {
+    public Concurso(LocalDate fechaInicio, LocalDate fechaFin, Saver recopilador, FechaProvider fechaProvider) {
         this.id = nextId++;
         this.participantes = new ArrayList<>();
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
         this.recopilador = recopilador;
+        this.fechaProvider = fechaProvider;
     }
 
-    public String inscribirA(Participante participante) {
-        LocalDate hoy = LocalDate.now();
-        if (!hoy.isBefore(fechaInicio) && !hoy.isAfter(fechaFin)) {
-            if (hoy.isEqual(fechaInicio)) {
-                participante.sumarleDiezPuntos();
-            }
-            participantes.add(participante);
-            this.recopilador.guardar(participante.getId(), this.getId());
-            return "Participante inscrito exitosamente.";
-        } else {
-            return "No se pueden inscribir participantes fuera del período de inscripción.";
+    public void inscribirA(Participante participante) {
+        LocalDate hoy = fechaProvider.hoy();
+        if (estaFueraDeRango(hoy)) {
+            throw new RuntimeException("Fuera de rango");
         }
+        if (esPrimerDia(hoy)) {
+            participante.sumarPuntos(puntosAsumar);
+        }
+        this.participantes.add(participante);
+        this.recopilador.guardar(participante.Id(), this.id);
+    }
+
+    private boolean estaFueraDeRango(LocalDate fecha) {
+        return fecha.isBefore(fechaInicio) || fecha.isAfter(fechaFin);
+    }
+
+    private boolean esPrimerDia(LocalDate fecha) {
+        return fecha.isEqual(fechaInicio);
     }
 
     public int cantidadDeParticipantes() {
-        return participantes.size();
-    }
-
-    public int getId() {
-        return id;
+        return this.participantes.size();
     }
 }

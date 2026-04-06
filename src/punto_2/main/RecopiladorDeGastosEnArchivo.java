@@ -1,9 +1,10 @@
 package punto_2.main;
 
 import punto_2.interfaces.RecopiladorDeGastos;
+
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class RecopiladorDeGastosEnArchivo implements RecopiladorDeGastos {
@@ -14,14 +15,13 @@ public class RecopiladorDeGastosEnArchivo implements RecopiladorDeGastos {
     }
 
     @Override
-    public void registrarGasto(double monto) {
-        String fecha = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        String linea = String.format("%s || %.1f\n", fecha, monto);
-
+    public void registrarGasto(double monto, LocalDate fecha) {
+        String fechaStr = fecha.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        String linea = String.format("%s || %.1f%n", fechaStr, monto);
         try (FileWriter writer = new FileWriter(nombreArchivo, true)) {
             writer.write(linea);
         } catch (IOException e) {
-            throw new RuntimeException("Error al escribir en el archivo", e);
+            throw new RuntimeException("Error técnico de persistencia", e);
         }
     }
 }

@@ -7,6 +7,12 @@ public class Plato implements Vendible {
     private double precio;
 
     public Plato(String nombre, double precio) {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nombre no puede ser vacío");
+        }
+        if (precio < 0) {
+            throw new IllegalArgumentException("Precio no puede ser negativo");
+        }
         this.nombre = nombre;
         this.precio = precio;
     }

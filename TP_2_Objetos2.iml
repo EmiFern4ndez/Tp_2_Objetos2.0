@@ -33,5 +33,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="sun.mail.jakarta" level="project" />
+    <orderEntry type="library" name="mysql.connector.java" level="project" />
   </component>
 </module>

@@ -11,6 +11,8 @@ public class Mesa {
     private Pedido pedidoActual;
 
     public Mesa(int numero, int capacidad) {
+        if (numero <= 0) throw new IllegalArgumentException("Número de mesa debe ser positivo");
+        if (capacidad <= 0) throw new IllegalArgumentException("Capacidad debe ser positiva");
         this.numero = numero;
         this.capacidadTotal = capacidad;
         this.capacidadActual = 0;
@@ -18,48 +20,30 @@ public class Mesa {
         this.pedidoActual = new Pedido();
     }
 
-    public void agregarComensal() {
-        if (capacidadActual < capacidadTotal) {
-            capacidadActual++;
-            if (capacidadActual == capacidadTotal) {
-                ocupar();
-            }
-            //Esto lo podria reemplazar por una exception
-        } else {
-            System.out.println("La mesa " + numero + " está llena.");
-        }
-    }
-
     public void ocupar() {
         this.ocupada = true;
     }
 
-    public void desocupar() {
-        this.capacidadActual = 0;
-        this.ocupada = false;
-    }
-
-    public boolean isOcupada() {
-        return this.ocupada;
+    public int numeroDeMesa(){
+        return this.numero;
     }
 
     public void realizarPedido(Vendible item, int cantidad) {
-        if (this.ocupada) {
-            pedidoActual.agregarItem(item, cantidad);
+        if (!ocupada) {
+            throw new RuntimeException("La mesa debe estar ocupada para pedir.");
         }
+        pedidoActual.agregar(item, cantidad);
     }
 
     public void confirmarPedido() {
         pedidoActual.confirmar();
     }
 
-    // En lugar de getPedido(), exponemos métodos de negocio
     public double calcularCostoBaseDelPedido() {
         return this.pedidoActual.calcularCostoBase();
     }
 
-    public double aplicarDescuentoDeTarjeta(Tarjeta tarjeta) {
-        // Le pasamos la responsabilidad al pedido, que es quien tiene los items
-        return tarjeta.calcularDescuento(this.pedidoActual.obtenerItems());
+    public double aplicarDescuentoCon(Tarjeta tarjeta) {
+        return tarjeta.calcularDescuento(pedidoActual.items());
     }
 }

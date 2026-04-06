@@ -3,6 +3,8 @@ package punto_2.test;
 import org.junit.jupiter.api.Test;
 import punto_2.main.*;
 import punto_2.services.CalculadoraViedma;
+import punto_2.interfaces.FechaProvider;
+import java.time.LocalDate;
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,7 +14,8 @@ class RestauranteTest {
     void testCalculoCostoVisa() {
         // Inicializamos la infraestructura
         FakeRecopilador fake =  new FakeRecopilador();
-        var calculadora = new CalculadoraViedma(fake);
+        FechaProvider fechaFake = () -> LocalDate.of(2023, 10, 10); // Fecha fija para test
+        var calculadora = new CalculadoraViedma(fake, fechaFake);
         var mesa = new Mesa(1, 4);
         mesa.ocupar(); // La mesa debe estar ocupada para aceptar pedidos
         // Productos de prueba
@@ -34,7 +37,8 @@ class RestauranteTest {
     void testCalculoCostoMastercard() {
         // Inicializamos la infraestructura
         FakeRecopilador fake =  new FakeRecopilador();
-        var calculadora = new CalculadoraViedma(fake);
+        FechaProvider fechaFake = () -> LocalDate.of(2023, 10, 10);
+        var calculadora = new CalculadoraViedma(fake, fechaFake);
         var mesa = new Mesa(1, 4);
         mesa.ocupar(); // La mesa debe estar ocupada para aceptar pedidos
         // Productos de prueba
@@ -56,7 +60,8 @@ class RestauranteTest {
     void testCalculoCostoComarcaPlus() {
         // Inicializamos la infraestructura
         FakeRecopilador fake =  new FakeRecopilador();
-        var calculadora = new CalculadoraViedma(fake);
+        FechaProvider fechaFake = () -> LocalDate.of(2023, 10, 10);
+        var calculadora = new CalculadoraViedma(fake, fechaFake);
         var mesa = new Mesa(1, 4);
         mesa.ocupar(); // La mesa debe estar ocupada para aceptar pedidos
         // Productos de prueba
@@ -78,7 +83,8 @@ class RestauranteTest {
     void testCalculoCostoViedma() {
         // Inicializamos la infraestructura
         FakeRecopilador fake =  new FakeRecopilador();
-        var calculadora = new CalculadoraViedma(fake);
+        FechaProvider fechaFake = () -> LocalDate.of(2023, 10, 10);
+        var calculadora = new CalculadoraViedma(fake, fechaFake);
         var mesa = new Mesa(1, 4);
         mesa.ocupar(); // La mesa debe estar ocupada para aceptar pedidos
         // Productos de prueba
@@ -108,7 +114,8 @@ class RestauranteTest {
     @Test
     void testCalcularTotalSeGuardaDatosEnElRecopilador() {
         FakeRecopilador fake =  new FakeRecopilador();
-        var calculadora = new CalculadoraViedma(fake);
+        FechaProvider fechaFake = () -> LocalDate.of(2023, 10, 10);
+        var calculadora = new CalculadoraViedma(fake, fechaFake);
         var mesa = new Mesa(1, 4);
         mesa.ocupar(); // La mesa debe estar ocupada para aceptar pedidos
         // Productos de prueba
@@ -123,18 +130,21 @@ class RestauranteTest {
         // Propina 2% de 1970 = 39,4.
         // Total esperado: 1970 + 39,4 =
         double total = calculadora.calcularFinal(mesa, new Visa(), 2);
-        assertTrue(fake.getGuardo());
+        assertTrue(fake.seGuardo());
+        /*Otra opcion*/
+        assertEquals(1, fake.vecesGuardado());
     }
 
     @Test
     void testCalcularTotalNoSeGuardaDatosEnElRecopilador() {
         FakeRecopilador fake =  new FakeRecopilador();
-        var calculadora = new CalculadoraViedma(fake);
+        FechaProvider fechaFake = () -> LocalDate.of(2023, 10, 10);
+        var calculadora = new CalculadoraViedma(fake, fechaFake);
         var mesa = new Mesa(5, 4);
         var lasaña = new Plato("Lasaña", 1000.0);
         mesa.realizarPedido(lasaña, 1);
         //No se confirma el pedido
         double total = calculadora.calcularFinal(mesa, new Visa(), 2);
-        assertFalse(fake.getGuardo());
+        assertFalse(fake.seGuardo());
     }
 }

@@ -14,7 +14,7 @@ public class Pedido {
         this.confirmado = false;
     }
 
-    public void agregarItem(Vendible item, int cantidad) {
+    public void agregar(Vendible item, int cantidad) {
         if (!confirmado) {
             for (int i = 0; i < cantidad; i++) {
                 items.add(item);
@@ -26,8 +26,8 @@ public class Pedido {
         this.confirmado = true;
     }
 
-    public List<Vendible> obtenerItems() {
-        return items;
+    public List<Vendible> items() {
+        return List.copyOf(items); // Devuelve copia inmutable
     }
 
     public double calcularCostoBase() {
